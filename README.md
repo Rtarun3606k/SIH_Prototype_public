@@ -1,4 +1,4 @@
-write a readm e for activitating the backend and front end elobrately and add commands for all plartform and format it# Activating Backend and Frontend
+8write a readm e for activitating the backend and front end elobrately and add commands for all plartform and format it# Activating Backend and Frontend
 Here is the updated markdown content:
 
 To activate the backend and frontend of the project, follow the steps below:
@@ -47,7 +47,7 @@ To activate the backend and frontend of the project, follow the steps below:
 The frontend of the application is built with React. To activate the frontend, follow these steps:
 
 1. Open a terminal window.
-2. Navigate to the frontend directory using the command `cd /home/big_dragoon/hackthon/shih/prototype/frontend`.
+2. Navigate to the frontend directory using the command `cd prototype/frontend`.
 3. Install the required dependencies by running `npm install`.
 4. Start the frontend development server with the command `npm run dev`.
 
@@ -56,14 +56,14 @@ The frontend of the application is built with React. To activate the frontend, f
 ### Windows
 
 - Frontend Activation:
-  - Navigate to the frontend directory: `cd /home/big_dragoon/hackthon/shih/prototype/frontend`
+  - Navigate to the frontend directory: `cd prototype/frontend`
   - Install dependencies: `npm install`
   - Start the frontend development server: `npm run dev`
 
 ### macOS/Linux
 
 - Frontend Activation:
-  - Navigate to the frontend directory: `cd /home/big_dragoon/hackthon/shih/prototype/frontend`
+  - Navigate to the frontend directory: `cd prototype/frontend`
   - Install dependencies: `npm install`
   - Start the frontend development server: `npm start`
 
