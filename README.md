@@ -49,7 +49,7 @@ The frontend of the application is built with React. To activate the frontend, f
 1. Open a terminal window.
 2. Navigate to the frontend directory using the command `cd /home/big_dragoon/hackthon/shih/prototype/frontend`.
 3. Install the required dependencies by running `npm install`.
-4. Start the frontend development server with the command `npm start`.
+4. Start the frontend development server with the command `npm run dev`.
 
 ## Platform-Specific Commands
 
@@ -58,7 +58,7 @@ The frontend of the application is built with React. To activate the frontend, f
 - Frontend Activation:
   - Navigate to the frontend directory: `cd /home/big_dragoon/hackthon/shih/prototype/frontend`
   - Install dependencies: `npm install`
-  - Start the frontend development server: `npm start`
+  - Start the frontend development server: `npm run dev`
 
 ### macOS/Linux
 
