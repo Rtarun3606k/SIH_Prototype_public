@@ -1,6 +1,7 @@
 from flask import Flask , request ,jsonify ,Blueprint
 from config import app, db
-# from models import User
+from model.admin_model import ADMIN
+from model.user_model import USER
 from flask_jwt_extended import verify_jwt_in_request, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, jwt_required
 
 # impoting all files from routes folder

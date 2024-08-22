@@ -7,6 +7,7 @@ from datetime import timedelta
 import re
 
 
+
 admin = Blueprint('admin', __name__)
 
 @admin.route('/register',methods=['POST',"GET"])
