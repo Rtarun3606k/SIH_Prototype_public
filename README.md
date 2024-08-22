@@ -1,4 +1,6 @@
-8write a readm e for activitating the backend and front end elobrately and add commands for all plartform and format it# Activating Backend and Frontend
+write a readm e for activitating the backend and front end elobrately and add commands for all plartform and format it
+
+Activating Backend and Frontend
 Here is the updated markdown content:
 
 To activate the backend and frontend of the project, follow the steps below:
@@ -8,12 +10,12 @@ To activate the backend and frontend of the project, follow the steps below:
 1. Install Git on your system. You can download it from the official website or use a package manager like Homebrew (for macOS) or apt-get (for Ubuntu).
 2. Clone the repository using the following command:
    ```
-   git clone <link>
+   git clone https://github.com/Rtarun3606k/SIH_Prototype_public.git
    ```
-   Replace `<link>` with the actual URL of the repository.
+   
 3. Navigate to the backend directory:
    ```
-   cd backend
+   cd prototype/backend
    ```
 4. Install virtualenv and activate the environment. Virtualenv allows you to create isolated Python environments for your projects. To install virtualenv, run the following command:
    ```
@@ -65,6 +67,6 @@ The frontend of the application is built with React. To activate the frontend, f
 - Frontend Activation:
   - Navigate to the frontend directory: `cd prototype/frontend`
   - Install dependencies: `npm install`
-  - Start the frontend development server: `npm start`
+  - Start the frontend development server: `npm run dev`
 
 Remember to activate the backend before starting the frontend to ensure proper functionality.
