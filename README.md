@@ -1,4 +1,4 @@
-write a readm e for activitating the backend and front end elobrately and add commands for all plartform and format it
+
 
 Activating Backend and Frontend
 Here is the updated markdown content:
