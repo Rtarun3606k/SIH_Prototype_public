@@ -1,0 +1,85 @@
+.container, .box,.container2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 1rem;
+    background-color:black;
+    /* width:80%; */
+}
+
+.container2{
+    width:30%;
+    /* height: 50rem; */
+
+}
+
+.box{
+    /* justify-content: ; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    width: 100%;
+    padding: 3rem 2rem;
+    /* height: 30vh; */
+    height: 38vh;
+    border-radius: 12px ;
+}
+
+.inputs_box{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#email_box{
+    width: 100%;
+}
+
+#email{
+    width: 100%;
+}
+
+#password,#repassword{
+    width: 80%;
+}
+
+.password_div{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+input{
+    padding: 0.5rem 0.2rem;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+#show_btn{
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+
+}
+
+.login_btn{
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    /* border: 1px solid black; */
+    background-color: green;
+    color: black;
+    border: none;
+    transition: all 0.3s;
+    &:hover{
+        color: black;
+        background-color: greenyellow;
+    }
+}

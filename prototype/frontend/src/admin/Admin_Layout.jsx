@@ -1,7 +1,5 @@
 import React from "react";
-// import Register from "../Pages/Register/Register";
-// import Navigation from "./NavFoloder/Navigation";
-// import Footer from "./Footer";
+import Admin_navigation from "./components/Admin_navigation";
 
 import { Outlet, Link } from "react-router-dom";
 
@@ -10,7 +8,7 @@ const Admin_Layout = () => {
     <div>
       {/* <NavBar /> */}
       {/* <Navigation isInside={true} /> */}
-      navigation
+      <Admin_navigation />
       <main>
         <Outlet />
       </main>

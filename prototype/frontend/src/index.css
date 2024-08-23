@@ -66,3 +66,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+ 
+*{
+  margin: 0 0;
+  padding: 0 0;
+}
+
+body{
+  background: #393636;
+  color: aliceblue;
+}

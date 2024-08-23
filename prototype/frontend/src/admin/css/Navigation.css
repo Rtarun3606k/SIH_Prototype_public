@@ -1,0 +1,49 @@
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    background: #1a1a1a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+nav ul{
+    display: flex;
+    gap: 1em;
+    list-style: none;
+}
+
+nav ul li{
+    /* margin-right: 1em; */
+    padding: .6em .4rem;
+    /* background-color: #646cff; */
+    border-radius: 5px;
+    transition: all 0.3s ease;
+
+     &:hover, .active{
+
+        color: #040405;
+        background-color: #f7eeee;
+    }
+}
+
+.active{
+    background-color: #f7eeee;
+    color: #040405;
+    padding: .6em .6rem;
+
+    border-radius: 5px;
+}
+
+nav ul li a{
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 1em;
+    nav ul li:hover  &:hover{
+
+        color: #040405;
+        /* background-color: #f7eeee; */
+    }
+}

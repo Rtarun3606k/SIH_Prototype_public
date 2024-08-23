@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 // import Router from ".";
 import APPRouter from "./APPRouter.jsx";
+import { ToastContainer } from "react-toastify";
 // import
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   return (
     <>
       <APPRouter />
+      <ToastContainer />
     </>
   );
 }
