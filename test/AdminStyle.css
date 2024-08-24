@@ -1,8 +1,9 @@
-body {
+.body { 
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #1a1a1a; /* Dark background */
     margin: 0;
     padding: 0;
+    color: #e0e0e0; /* Light text color for readability */
 }
 
 .container {
@@ -14,62 +15,62 @@ body {
 }
 
 .form-container {
-    background-color: #fff;
+    background-color: #333; /* Darker background for the form container */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slightly darker shadow */
     width: 45%;
 }
 
-h2 {
+.h2 {
+    font-size: xx-large;
+    font-weight: 600;
     text-align: center;
-    color: #333;
+    color: #e0e0e0; /* Light text color */
 }
 
-label {
+.label {
     display: block;
     margin-bottom: 8px;
-    color: #333;
+    color: #e0e0e0; /* Light text color */
     font-weight: bold;
 }
 
-input[type="text"], textarea {
+.input, .textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #555; /* Darker border */
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #2a2a2a; /* Dark background for input fields */
+    color: #e0e0e0; /* Light text color */
 }
 
-textarea {
+.textarea {
     resize: vertical;
     height: 100px;
 }
 
-button {
+.submit_btn {
     width: 100%;
     padding: 10px;
-    background-color: #5cb85c;
+    background-color: #1f601f; /* Slightly lighter button background */
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: all 0.3s ease-in-out; 
+    transition: all 0.3s ease-in-out;
+    margin-top: 1rem;
+}
 
-    &:hover{
-
-        background-color: #4cae4c;
-    }
+.submit_btn:hover {
+    background-color: #317b31; /* Darker green on hover */
 }
 
 .error {
-    color: red;
+    color: #ff6666; /* Bright red error color */
     font-size: 14px;
     margin-bottom: 10px;
-}
-.submit_btn{
-    margin-top: 1rem;
-    
 }
