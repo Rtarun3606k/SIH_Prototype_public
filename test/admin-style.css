@@ -1,0 +1,141 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #fff;
+}
+
+header {
+    background-color: #1e2d50;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Center Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    background-color: #333;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #ff4500;
+}
+
+/* Scroll Box Styling */
+.scroll-box {
+    width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+    /* height: 200px; */
+    min-height: 100px;
+    overflow-y: scroll;
+    background-color: #1e2d50;
+    border-radius: 10px;
+}
+
+.scroll-box ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.scroll-box ul li {
+    padding: 10px;
+    background-color: #333;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.scroll-box ul li:hover {
+    background-color: #ff6600;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #1e2d50;
+    padding: 20px;
+    height: 100%;
+    position: fixed;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    display: block;
+}
+
+.sidebar nav ul li a:hover {
+    color: #ff6600;
+}
+
+/* Main Content */
+main {
+    margin-left: 270px;
+    padding: 40px;
+}
+
+main h1 {
+    font-size: 36px;
+}
+
+main p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Footer */
+footer {
+    background-color: #1e2d50;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
