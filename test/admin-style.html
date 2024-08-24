@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Travel and Tourism</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Admin Panel</div>
+    </div>
+</header>
+
+<div class="search-container">
+    <div class="search-bar">
+        <input type="text" id="stateSearch" placeholder="Search for a state...">
+        <button type="submit" onclick="searchState()">Search</button>
+    </div>
+</div>
+
+<div class="scroll-box" id="stateBox">
+    <ul>
+        <li>Andhra Pradesh</li>
+        <li>Bihar</li>
+        <li>Delhi</li>
+        <li>Goa</li>
+        <li>Gujarat</li>
+        <!-- Add more states as needed -->
+    </ul>
+</div>
+
+<div class="container">
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#destinations">Manage Destinations</a></li>
+                <li><a href="#bookings">Manage Bookings</a></li>
+                <li><a href="#users">Manage Users</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#logout">Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <section id="dashboard">
+            <h1>Welcome to the Admin Panel</h1>
+            <p>Use the sidebar to navigate through the panel.</p>
+        </section>
+    </main>
+</div>
+
+<footer>
+    <p>&copy; 2024 Travel and Tourism Admin Panel. All rights reserved.</p>
+</footer>
+
+<script>
+    function searchState() {
+        const input = document.getElementById('stateSearch').value.toLowerCase();
+        const stateBox = document.getElementById('stateBox');
+        const states = stateBox.getElementsByTagName('li');
+
+        for (let i = 0; i < states.length; i++) {
+            let state = states[i].innerText.toLowerCase();
+            if (state.includes(input)) {
+                states[i].style.display = '';
+            } else {
+                states[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
