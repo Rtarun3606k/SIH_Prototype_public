@@ -8,6 +8,7 @@ import bcrypt
 
 #import models form model
 from model.admin_model import ADMIN
+from model.places_models import States,PLACES,Places_images 
 
 
 admin = Blueprint('admin', __name__)
@@ -52,3 +53,5 @@ def login():
         refresh_token = create_refresh_token(identity=user.id, expires_delta=timedelta(milliseconds=30))
         return jsonify({'access_token':access_token,'refresh_token':refresh_token,"message":"login success"}),200
     return jsonify({'message':'invalid credentials'}),401
+
+# new = PLACES(name='new',description='new',location='new',category='new',price='new',rating='new',image='new',state=1)
