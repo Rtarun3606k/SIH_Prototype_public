@@ -3,6 +3,7 @@ import "./App.css";
 // import Router from ".";
 import APPRouter from "./APPRouter.jsx";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import
 
 function App() {
@@ -11,7 +12,18 @@ function App() {
   return (
     <>
       <APPRouter />
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }

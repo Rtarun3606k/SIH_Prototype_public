@@ -14,6 +14,7 @@ const Admin_Register = () => {
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const [username, setUsername] = useState("");
 
   // function to show and hide password
   const visiblity = () => {
@@ -27,24 +28,14 @@ const Admin_Register = () => {
     e.preventDefault();
     setIsRegistering(true);
 
-    const body = {
-      email: email ? email : undefined,
-      // phone_number: loginWithEmail ? undefined : phonenumber,
-      password: password,
-    };
-    console.log(body);
-
-    const response = await fetch(`${url}/admin/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      console.log(data.message);
-      toast.success(`${data.message}`, {
+    if (
+      email.length < 5 ||
+      username.length < 6 ||
+      password.length < 7 ||
+      repassword.length < 7 ||
+      password !== repassword
+    ) {
+      toast.error("Please fill the details properly", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -52,15 +43,64 @@ const Admin_Register = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "dark",
       });
-      // console.log("Refresh Token: ", data.refresh_token);
-      // console.log("Access Token: ", data.access_token);
-      // storedata(data.refresh_token, data.access_token);
-      navigation("/admin/login");
-      window.location.reload();
-    } else {
-      toast.error(`${data.message}`);
+      setIsRegistering(false);
+      return;
+    }
+
+    const body = {
+      email: email ? email : undefined,
+      username: username ? username : undefined, // Include username
+      password: password,
+    };
+
+    try {
+      const response = await fetch(`${url}/admin/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json();
+
+      if (response.status === 200) {
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigation("/admin/login");
+        // Consider removing window.location.reload();
+      } else {
+        toast.error(`${data.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
 
     setIsRegistering(false);
@@ -81,6 +121,19 @@ const Admin_Register = () => {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
+                }}
+              />
+            </div>
+            <div className="inputs_box" id="email_box">
+              <label htmlFor="username">User Name</label>
+              <input
+                type="text"
+                id="username"
+                required
+                placeholder="enter User name"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
                 }}
               />
             </div>
@@ -128,7 +181,7 @@ const Admin_Register = () => {
               {isRegistering ? "Registering Please wait.. " : " Register"}
             </button>
             <p>
-              Register Already <Link to="/admin/login">Login</Link>
+              Already have an account? <Link to="/admin/login">Login</Link>
             </p>
           </div>
         </div>

@@ -47,7 +47,7 @@ def login():
     user = ADMIN.query.filter_by(email=email).first()
     if not user:
         return jsonify({'message':'user not found'})
-    if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+    if bcrypt.checkpw(password.encode('utf-8'), user.password):
         access_token = create_access_token(identity=user.id,expires_delta=timedelta(days=1))
         refresh_token = create_refresh_token(identity=user.id, expires_delta=timedelta(milliseconds=30))
         return jsonify({'access_token':access_token,'refresh_token':refresh_token,"message":"login success"}),200
