@@ -56,10 +56,18 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    transition: all 0.3s ease-in-out; 
+
+    &:hover{
+
+        background-color: #4cae4c;
+    }
 }
 
-button:hover {
-    background-color: #4cae4c;
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 .submit_btn{
     margin-top: 1rem;
