@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place and Image Input Form</title>
+    <link rel="stylesheet" href="AdminStyle.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Place Input Form -->
+        <div class="form-container">
+            <h2>Place Information</h2>
+            <form action="/submit_place" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required>
+
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" required>
+
+                <label for="rating">Rating:</label>
+                <input type="text" id="rating" name="rating" required>
+
+                <label for="image">Select Image:</label>
+                <input type="file" id="image" name="image" required>
+
+            
+
+                <button type="submit" class="submit_btn">Submit Place</button>
+            </form>
+        </div>
+
+        <!-- PlaceImage Input Form -->
+        <div class="form-container">
+            <h2>Place Image</h2>
+            <form action="/submit_image" method="POST">
+                <label for="image">Image URL:</label>
+                <input type="file" id="image" name="image" required>
+
+                
+
+                <button type="submit" class="submit_btn">Submit Image</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
