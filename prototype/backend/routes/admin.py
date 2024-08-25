@@ -8,7 +8,7 @@ import bcrypt
 
 #import models form model
 from model.admin_model import ADMIN
-from model.places_models import States,StateImages,Places,PlacesImages
+from model.places_models import States,StateImages,Places,PlacesImages,Categories
 
 
 admin = Blueprint('admin', __name__)
@@ -99,3 +99,23 @@ def get_sates():
     for i in states:
         states_list.append({'id':i.id,'name':i.name})
     return jsonify({'states':states_list,"message":"data sent sucessfully"}),200
+    
+@admin.route("/get_cat",methods=['GET'])
+def get_cat():
+    cat = Categories.query.all()
+    cat_list = []
+    for i in cat:
+        cat_list.append({'id':i.id,'name':i.name})
+    return jsonify({'cat':cat_list,"message":"data sent sucessfully"}),200
+
+@admin.route("/add_cat",methods=['POST'])
+def add_cat():
+    get_data = request.json
+    cat = get_data.get("cat")
+    new_cat = Categories(name=cat)
+    try:
+        db.session.add(new_cat)
+        db.session.commit()
+        return jsonify({'message':'category added successfully'}),200
+    except Exception as e:
+        return jsonify({'message':f'{e}'}),401

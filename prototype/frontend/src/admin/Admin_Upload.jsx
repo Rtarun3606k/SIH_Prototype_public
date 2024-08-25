@@ -97,7 +97,7 @@ const Admin_Upload = () => {
       });
     }
     load_states();
-    setState_loading(true);
+    setState_loading(false);
     return;
   };
 
@@ -157,7 +157,7 @@ const Admin_Upload = () => {
       });
     }
     load_cat();
-    setCat_loading(true);
+    setCat_loading(false);
     return;
   };
 
@@ -296,16 +296,16 @@ const Admin_Upload = () => {
                   id="cat_input"
                   className="input"
                   required
-                  value={state}
+                  value={cat}
                   onChange={(e) => {
-                    setState(e.target.value);
+                    setcat(e.target.value);
                   }}
                 />
               </div>
               <button type="submit" className="submit_btn">
                 {cat_loading
-                  ? "Uploading State to data base please wait..."
-                  : "Submit State Name"}
+                  ? "Uploading Cat to data base please wait..."
+                  : "Submit Cat Name"}
               </button>
             </form>
           </div>
