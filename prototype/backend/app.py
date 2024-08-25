@@ -6,8 +6,8 @@ import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 
 # importing all files from models folder
-from model.user_model import USER
-from model.places_models import Places_images,PLACES,States
+# from model.user_model import USER
+# from model.places_models import Places_images,PLACES,States
 
 # impoting all files from routes folder
 from routes.admin import admin

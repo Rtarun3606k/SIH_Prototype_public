@@ -5,7 +5,9 @@ nav{
     padding: 1em 2em;
     background: #1a1a1a;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+    position: sticky;
+    top: 0 ;
+    z-index: 100;
 }
 
 nav ul{

@@ -8,7 +8,7 @@ import bcrypt
 
 #import models form model
 from model.admin_model import ADMIN
-from model.places_models import States,PLACES,Places_images 
+from model.places_models import States,StateImages,Places,PlacesImages
 
 
 admin = Blueprint('admin', __name__)
@@ -55,3 +55,21 @@ def login():
     return jsonify({'message':'invalid credentials'}),401
 
 # new = PLACES(name='new',description='new',location='new',category='new',price='new',rating='new',image='new',state=1)
+
+
+@admin.route('/add_place',methods=['POST'])
+def add_place():
+    get_data = request.json
+    name = get_data.get("name")
+    description = get_data.get("description")
+    location = get_data.get("location")
+    category = get_data.get("category")
+    price = get_data.get("price")
+    rating = get_data.get("rating")
+    image = get_data.get("image")
+    state = get_data.get("state")
+    images = get_data.get("images")
+    if not name or not description or not location or not category or not price or not rating or not image or not state or not images:
+        return jsonify({'message':'please fill all the fields'}),401
+    # try:
+    #     adding_place = 
