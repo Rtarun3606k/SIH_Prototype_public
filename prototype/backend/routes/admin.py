@@ -73,3 +73,29 @@ def add_place():
         return jsonify({'message':'please fill all the fields'}),401
     # try:
     #     adding_place = 
+
+
+@admin.route('/add_state',methods=['POST'])
+def add_state():
+    get_data = request.json
+    state = get_data.get("state")
+    print(state)
+    # image = get_data.get("image")
+    # if not name or not image:
+    #     return jsonify({'message':'please fill all the fields'}),401
+    new_state = States(name= state)
+    try:
+        db.session.add(new_state)
+        db.session.commit()
+        return jsonify({'message':'state added successfully'}),200
+    except Exception as e:
+        print(e)
+        return jsonify({'message':f'{e}'}),401
+    
+@admin.route("/get_states",methods=['GET'])
+def get_sates():
+    states = States.query.all()
+    states_list = []
+    for i in states:
+        states_list.append({'id':i.id,'name':i.name})
+    return jsonify({'states':states_list,"message":"data sent sucessfully"}),200

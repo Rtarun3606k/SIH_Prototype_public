@@ -1,11 +1,18 @@
 from config import db
+# from sqlalchemy.dialects.postgresql import ARRAY
+# from json_type import JsonType 
 
 class Places(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     location = db.Column(db.String(50), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
+    # category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)  # Foreign key to Categories
+    categories = db.Column(db.Text(), nullable=False)  
+
+    # categories = db.Column(JsonType)  # Use the custom JSON type here
+
+    # categories = db.relationship('Categories', backref='place', lazy=True)
     price = db.Column(db.String(50), nullable=False)
     rating = db.Column(db.String(50), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)  # Large binary for image
@@ -41,3 +48,11 @@ class StateImages(db.Model):
 
     def __repr__(self):
         return f'<StateImages {self.id}>'
+    
+class Categories(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    places = db.relationship('Places', backref='category', lazy=True)
+
+    def __repr__(self):
+        return f'<categories {self.name}>'
