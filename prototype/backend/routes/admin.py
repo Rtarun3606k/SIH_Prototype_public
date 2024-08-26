@@ -73,7 +73,7 @@ def add_state():
     if not check_user:
         return jsonify({'message':'user not found'}),401
     get_data = request.json
-    state = get_data.get("state")
+    state = get_data.get("state_name")
     print(state)
     # image = get_data.get("image")
     # if not name or not image:
