@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Upload.css";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { url } from "../Utility/URL";
 import { get_cookies_data } from "../Utility/AUTH";
@@ -10,9 +9,18 @@ const Admin_Upload = () => {
   const [place_loading, setPlace_loading] = useState(false);
   const [state, setState] = useState("");
   const [state_array, setState_array] = useState([]);
-  const [cat, setcat] = useState("");
+  const [cat, setCat] = useState("");
   const [catList, setCatList] = useState([]);
   const [cat_loading, setCat_loading] = useState(false);
+
+  //places data
+  const [place_name, setPlace_name] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [rating, setRating] = useState(0);
+  const [images, setImages] = useState([]);
+  const [state_name, setState_name] = useState("");
+  const [cat_name, setCat_name] = useState("");
 
   useEffect(() => {
     load_states();
@@ -24,31 +32,85 @@ const Admin_Upload = () => {
     const request = await fetch(`${url}/admin/get_states`);
     const data = await request.json();
     setState_array(data.states);
-    // console.log(data.states);
-    // toast(data.message);
   };
 
   const load_cat = async () => {
     const request = await fetch(`${url}/admin/get_cat`);
     const data = await request.json();
-    setState_array(data.cat);
-    // console.log(data.states);
-    // toast(data.message);
+    setCatList(data.cat);
   };
 
-  // function handel submit
-  const handel_submit = () => {
-    return;
+  // Function to handle place submission
+  const handle_place_submit = async (e) => {
+    e.preventDefault();
+    setPlace_loading(true);
+
+    const formData = new FormData();
+    formData.append("place_name", place_name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("rating", rating);
+    formData.append("state_name", state_name);
+    formData.append("cat_name", cat_name);
+
+    // Append multiple images to formData
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
+
+    try {
+      const response = await fetch(`${url}/admin/add_place`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${get_cookies_data(false, true)}`,
+        },
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (response.status === 200) {
+        toast.success(`${data.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error(`${data.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
+    setPlace_loading(false);
   };
-  // function to handel state submit
-  const handel_state_submit = async (e) => {
+
+  // Function to handle state submission
+  const handle_state_submit = async (e) => {
     e.preventDefault();
     setState_loading(true);
-    const body = {
-      state: state ? state : undefined,
-
-      // password: password,
-    };
 
     try {
       const response = await fetch(`${url}/admin/add_state`, {
@@ -57,32 +119,21 @@ const Admin_Upload = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${get_cookies_data(false, true)}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ state_name: state }),
       });
       const data = await response.json();
 
       if (response.status === 200) {
-        toast.success(`${data.message}`, {
+        toast.success(data.message, {
           position: "top-center",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "dark",
         });
-        // navigate("/admin/dashboard");
-        // Consider removing window.location.reload();
+        setState(""); // Clear input
       } else {
-        toast.error(`${data.message}`, {
+        toast.error(data.message, {
           position: "top-center",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "dark",
         });
       }
@@ -90,28 +141,16 @@ const Admin_Upload = () => {
       toast.error("An error occurred. Please try again later.", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "dark",
       });
     }
-    load_states();
     setState_loading(false);
-    return;
   };
 
-  // function to handel cat submit
-  const handel_cat_submit = async (e) => {
+  // Function to handle category submission
+  const handle_cat_submit = async (e) => {
     e.preventDefault();
     setCat_loading(true);
-    const body = {
-      cat: cat ? cat : undefined,
-
-      // password: password,
-    };
 
     try {
       const response = await fetch(`${url}/admin/add_cat`, {
@@ -120,30 +159,21 @@ const Admin_Upload = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${get_cookies_data(false, true)}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ cat_name: cat }),
       });
       const data = await response.json();
 
       if (response.status === 200) {
-        toast.success(`${data.message}`, {
+        toast.success(data.message, {
           position: "top-center",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "dark",
         });
+        setCat(""); // Clear input
       } else {
-        toast.error(`${data.message}`, {
+        toast.error(data.message, {
           position: "top-center",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "dark",
         });
       }
@@ -151,27 +181,23 @@ const Admin_Upload = () => {
       toast.error("An error occurred. Please try again later.", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "dark",
       });
     }
-    load_cat();
     setCat_loading(false);
-    return;
   };
 
   return (
     <>
       <div className="body">
         <div className="container">
-          {/* <!-- Place Input Form --> */}
           <div className="form-container">
             <p className="h2">Place Information</p>
-            <form method="POST" onSubmit={handel_submit}>
+            <form
+              method="POST"
+              onSubmit={handle_place_submit}
+              encType="multipart/form-data"
+            >
               <label htmlFor="name">Name:</label>
               <input
                 type="text"
@@ -179,6 +205,10 @@ const Admin_Upload = () => {
                 name="name"
                 required
                 className="input"
+                value={place_name}
+                onChange={(e) => {
+                  setPlace_name(e.target.value);
+                }}
               />
 
               <label htmlFor="description">Description:</label>
@@ -187,88 +217,80 @@ const Admin_Upload = () => {
                 name="description"
                 required
                 className="textarea"
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
               ></textarea>
 
               <label htmlFor="state">State:</label>
-
-              <select id="state">
-                {/* <hr /> */}
-                {state_array.map((item) => {
-                  return (
-                    <>
-                      {/* {" "} */}
-                      {/* {console.log(item.name)} */}
-                      <option
-                        key={item.id}
-                        value={`${item.name}`}
-                      >{`${item.name}`}</option>
-                      ;
-                    </>
-                  );
-                })}
+              <select
+                id="state"
+                onChange={(e) => setState_name(e.target.value)}
+              >
+                {state_array.map((item) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
 
               <label htmlFor="cat">Category:</label>
-
-              <select id="cat">
-                {/* <hr /> */}
-                {state_array.map((item) => {
-                  return (
-                    <>
-                      {/* {" "} */}
-                      {/* {console.log(item.name)} */}
-                      <option
-                        key={item.id}
-                        value={`${item.name}`}
-                      >{`${item.name}`}</option>
-                      ;
-                    </>
-                  );
-                })}
+              <select id="cat" onChange={(e) => setCat_name(e.target.value)}>
+                {catList.map((item) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
 
               <label htmlFor="price">Price:</label>
               <input
-                type="text"
+                type="number"
                 id="price"
                 name="price"
                 required
                 className="input"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
               />
 
               <label htmlFor="rating">Rating:</label>
               <input
-                type="text"
+                type="number"
                 id="rating"
                 name="rating"
                 required
                 className="input"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
               />
 
-              <label htmlFor="image">Select Image:</label>
+              {/* PlaceImage Input Form */}
+              <p className="h2">Place Images</p>
+              <label htmlFor="images" className="label">
+                Select Images:{" "}
+              </label>
               <input
                 type="file"
-                id="image"
-                name="image"
-                required
-                className="choose"
+                id="images"
+                name="images"
+                multiple
+                onChange={(e) => {
+                  setImages(e.target.files);
+                }}
               />
-              {/* <!-- PlaceImage Input Form --> */}
-              <p className="h2">Place Image</p>
-              <label htmlFor="image" className="label">
-                Select Image:{" "}
-              </label>
-              <input type="file" id="image" name="image" required />
 
               <button type="submit" className="submit_btn">
                 {place_loading
-                  ? "Uploading Place to data base please wait..."
-                  : " Submit Place"}
+                  ? "Uploading Place to database, please wait..."
+                  : "Submit Place"}
               </button>
             </form>
           </div>
+          {/* State and Category Forms */}
           <div className="form-container">
-            <form method="POST" onSubmit={handel_state_submit}>
+            <form method="POST" onSubmit={handle_state_submit}>
               <div className="flex-state">
                 <label htmlFor="state_input">Enter state name:</label>
                 <input
@@ -285,14 +307,14 @@ const Admin_Upload = () => {
               </div>
               <button type="submit" className="submit_btn">
                 {state_loading
-                  ? "Uploading State to data base please wait..."
-                  : "Submit State Name"}
+                  ? "Uploading State to database, please wait..."
+                  : "Add State"}
               </button>
             </form>
-            {/* category Submittion form */}
-            <form method="POST" onSubmit={handel_cat_submit}>
+
+            <form method="POST" onSubmit={handle_cat_submit}>
               <div className="flex-state">
-                <label htmlFor="cat_input">Enter Category name:</label>
+                <label htmlFor="cat_input">Enter category name:</label>
                 <input
                   type="text"
                   placeholder="Enter category name"
@@ -301,14 +323,14 @@ const Admin_Upload = () => {
                   required
                   value={cat}
                   onChange={(e) => {
-                    setcat(e.target.value);
+                    setCat(e.target.value);
                   }}
                 />
               </div>
               <button type="submit" className="submit_btn">
                 {cat_loading
-                  ? "Uploading Cat to data base please wait..."
-                  : "Submit Cat Name"}
+                  ? "Uploading Category to database, please wait..."
+                  : "Add Category"}
               </button>
             </form>
           </div>

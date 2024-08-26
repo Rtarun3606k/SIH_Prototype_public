@@ -5,6 +5,8 @@ from flask_jwt_extended import create_access_token,get_jwt_identity,jwt_required
 from datetime import timedelta
 import re
 import bcrypt
+from sqlalchemy.exc import IntegrityError
+import base64
 
 #import models form model
 from model.admin_model import ADMIN
@@ -60,22 +62,7 @@ def login():
 # new = PLACES(name='new',description='new',location='new',category='new',price='new',rating='new',image='new',state=1)
 
 
-@admin.route('/add_place',methods=['POST'])
-def add_place():
-    get_data = request.json
-    name = get_data.get("name")
-    description = get_data.get("description")
-    location = get_data.get("location")
-    category = get_data.get("category")
-    price = get_data.get("price")
-    rating = get_data.get("rating")
-    image = get_data.get("image")
-    state = get_data.get("state")
-    images = get_data.get("images")
-    if not name or not description or not location or not category or not price or not rating or not image or not state or not images:
-        return jsonify({'message':'please fill all the fields'}),401
-    # try:
-    #     adding_place = 
+
 
 
 @admin.route('/add_state',methods=['POST'])
@@ -132,3 +119,71 @@ def add_cat():
         return jsonify({'message':'category added successfully'}),200
     except Exception as e:
         return jsonify({'message':f'{e}'}),401
+    
+
+
+@admin.route('/add_place', methods=['POST'])
+@jwt_required()
+def add_place():
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+
+    # Extract data from the request
+    name = request.json.get('name')
+    description = request.json.get('description')
+    location = request.json.get('location')
+    category = request.json.get('category')
+    price = request.json.get('price')
+    rating = request.json.get('rating')
+    state = request.json.get('state')
+
+    # Extract and decode images
+    image_data = []
+    for i in range(1, 6):  # Assuming up to 5 images
+        image = request.json.get(f'image{i}')
+        mimetype = request.json.get(f'mimetype{i}')
+        if image and mimetype:
+            decoded_image = base64.b64decode(image)
+            image_data.append((decoded_image, mimetype))
+
+    # Validation
+    if not all([name, description, location, category, price, rating, state]) or not image_data:
+        return jsonify({'message': 'Please fill all the fields and upload images'}), 400
+
+    # Find state and category
+    state_obj = States.query.filter_by(name=state).first()
+    category_obj = Categories.query.filter_by(name=category).first()
+
+    if not state_obj or not category_obj:
+        return jsonify({'message': 'Invalid state or category'}), 400
+
+    # Create a new place instance
+    new_place = Places(
+        name=name,
+        description=description,
+        location=location,
+        categories=category_obj.id,
+        price=price,
+        rating=rating,
+        state_id=state_obj.id
+    )
+
+    try:
+        db.session.add(new_place)
+        db.session.commit()
+
+        # Add images
+        for image, mimetype in image_data:
+            place_image = PlacesImages(image=image, mimetype=mimetype, place_id=new_place.id)
+            db.session.add(place_image)
+
+        db.session.commit()
+        return jsonify({'message': 'Place added successfully'}), 201
+    except IntegrityError as e:
+        db.session.rollback()
+        return jsonify({'message': f'Error adding place: {e}'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Unexpected error: {e}'}), 500

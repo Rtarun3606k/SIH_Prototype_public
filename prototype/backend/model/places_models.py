@@ -15,7 +15,7 @@ class Places(db.Model):
     # categories = db.relationship('Categories', backref='place', lazy=True)
     price = db.Column(db.String(50), nullable=False)
     rating = db.Column(db.String(50), nullable=False)
-    image = db.Column(db.LargeBinary, nullable=False)  # Large binary for image
+    # image = db.Column(db.LargeBinary, nullable=False)  # Large binary for image
     images = db.relationship('PlacesImages', backref='place', lazy=True)
     state_id = db.Column(db.Integer, db.ForeignKey('states.id'), nullable=False)
 
