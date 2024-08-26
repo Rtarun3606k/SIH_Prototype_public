@@ -3,6 +3,7 @@ import "./css/Upload.css";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { url } from "../Utility/URL";
+import { get_cookies_data } from "../Utility/AUTH";
 
 const Admin_Upload = () => {
   const [state_loading, setState_loading] = useState(false);
@@ -54,6 +55,7 @@ const Admin_Upload = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${get_cookies_data(false, true)}`,
         },
         body: JSON.stringify(body),
       });
@@ -116,6 +118,7 @@ const Admin_Upload = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${get_cookies_data(false, true)}`,
         },
         body: JSON.stringify(body),
       });

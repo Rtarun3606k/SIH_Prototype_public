@@ -17,12 +17,15 @@ export const store_cookies_data = (refresh_token, access_token) => {
     secure: true,
     sameSite: "strict",
   });
+  sessionStorage.setItem("admin", "true");
+  // window.location.reload();
 };
 
 //function to delete the cookies data
 export const delete_cookies_storedata = () => {
   Cookies.remove("authdata");
   console.log("deleting data function");
+  sessionStorage.removeItem("admin");
 };
 
 //function to get the cookies data

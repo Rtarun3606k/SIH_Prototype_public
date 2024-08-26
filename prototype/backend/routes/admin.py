@@ -40,17 +40,20 @@ def register():
 
 @admin.route('/login',methods=['POST'])
 def login():
+    print("inside")
     get_data = request.json
     email = get_data.get("email")
     password = get_data.get("password")
     if not email or not password:
-        return jsonify({'message':'please fill all the fields'})
+        return jsonify({'message':'please fill all the fields'}),401
     user = ADMIN.query.filter_by(email=email).first()
     if not user:
-        return jsonify({'message':'user not found'})
+        return jsonify({'message':'user not found'}),401
     if bcrypt.checkpw(password.encode('utf-8'), user.password):
+        print("checked password")
         access_token = create_access_token(identity=user.id,expires_delta=timedelta(days=1))
         refresh_token = create_refresh_token(identity=user.id, expires_delta=timedelta(milliseconds=30))
+        print(access_token,refresh_token,"token")
         return jsonify({'access_token':access_token,'refresh_token':refresh_token,"message":"login success"}),200
     return jsonify({'message':'invalid credentials'}),401
 
@@ -76,7 +79,12 @@ def add_place():
 
 
 @admin.route('/add_state',methods=['POST'])
+@jwt_required()
 def add_state():
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message':'user not found'}),401
     get_data = request.json
     state = get_data.get("state")
     print(state)
@@ -109,7 +117,12 @@ def get_cat():
     return jsonify({'cat':cat_list,"message":"data sent sucessfully"}),200
 
 @admin.route("/add_cat",methods=['POST'])
+@jwt_required()
 def add_cat():
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message':'user not found'}),401
     get_data = request.json
     cat = get_data.get("cat")
     new_cat = Categories(name=cat)

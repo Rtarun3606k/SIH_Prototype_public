@@ -56,8 +56,8 @@ const Admin_Login = () => {
         body: JSON.stringify(body),
       });
       const data = await response.json();
-      console.log(data.refresh_token, data.access_token);
       store_cookies_data(data.refresh_token, data.access_token);
+      console.log(data.refresh_token, data.access_token, "token");
       if (response.status === 200) {
         toast.success(`${data.message}`, {
           position: "top-center",
@@ -95,7 +95,7 @@ const Admin_Login = () => {
         theme: "dark",
       });
     }
-
+    window.location.reload();
     setIsLoggingin(false);
   };
 
