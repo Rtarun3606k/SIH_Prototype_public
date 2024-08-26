@@ -1,4 +1,4 @@
-from flask import Blueprint,jsonify,request,current_app
+from flask import Blueprint,jsonify,request,current_app,send_file
 import bcrypt
 from config import db
 from flask_jwt_extended import create_access_token,get_jwt_identity,jwt_required,create_refresh_token
@@ -7,7 +7,8 @@ import re
 import bcrypt
 from sqlalchemy.exc import IntegrityError
 import base64
-
+from werkzeug.utils import secure_filename
+from io import BytesIO
 #import models form model
 from model.admin_model import ADMIN
 from model.places_models import States,StateImages,Places,PlacesImages,Categories
@@ -121,7 +122,6 @@ def add_cat():
         return jsonify({'message':f'{e}'}),401
     
 
-
 @admin.route('/add_place', methods=['POST'])
 @jwt_required()
 def add_place():
@@ -130,27 +130,25 @@ def add_place():
     if not check_user:
         return jsonify({'message': 'User not found'}), 401
 
-    # Extract data from the request
-    name = request.json.get('name')
-    description = request.json.get('description')
-    location = request.json.get('location')
-    category = request.json.get('category')
-    price = request.json.get('price')
-    rating = request.json.get('rating')
-    state = request.json.get('state')
+    # Extract data from the form
+    name = request.form.get('place_name')
+    description = request.form.get('description')
 
-    # Extract and decode images
-    image_data = []
-    for i in range(1, 6):  # Assuming up to 5 images
-        image = request.json.get(f'image{i}')
-        mimetype = request.json.get(f'mimetype{i}')
-        if image and mimetype:
-            decoded_image = base64.b64decode(image)
-            image_data.append((decoded_image, mimetype))
+    category = request.form.get('cat_name')
+    price = request.form.get('price')
+    rating = request.form.get('rating')
+    state = request.form.get('state_name')
+    print(name,description,category,price,rating,state)
+    print(request.files)
+
+    # Extract and handle images
+    image_files = request.files.getlist('images')
+    if not image_files:
+        return jsonify({'message': 'Please upload at least one image'}), 400
 
     # Validation
-    if not all([name, description, location, category, price, rating, state]) or not image_data:
-        return jsonify({'message': 'Please fill all the fields and upload images'}), 400
+    if not all([name, description, category, price, rating, state]):
+        return jsonify({'message': 'Please fill all the fields'}), 400
 
     # Find state and category
     state_obj = States.query.filter_by(name=state).first()
@@ -163,7 +161,7 @@ def add_place():
     new_place = Places(
         name=name,
         description=description,
-        location=location,
+        State_name=state,
         categories=category_obj.id,
         price=price,
         rating=rating,
@@ -175,8 +173,10 @@ def add_place():
         db.session.commit()
 
         # Add images
-        for image, mimetype in image_data:
-            place_image = PlacesImages(image=image, mimetype=mimetype, place_id=new_place.id)
+        for image_file in image_files:
+            image = image_file.read()
+            mimetype = image_file.mimetype
+            place_image = PlacesImages(image=image, mimetype=mimetype, place_id=new_place.id, image_name=image_file.filename)
             db.session.add(place_image)
 
         db.session.commit()
@@ -187,3 +187,60 @@ def add_place():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Unexpected error: {e}'}), 500
+    
+
+
+@admin.route('/get_places', methods=['GET'])
+def get_places():
+    places = Places.query.all()
+    places_list = []
+    for place in places:
+        images = PlacesImages.query.filter_by(place_id=place.id).all()
+        images_list = [{'id': image.id, 'image_name': image.image_name, 'mimetype': image.mimetype} for image in images]
+        places_list.append({
+            'id': place.id,
+            'name': place.name,
+            'description': place.description,
+            'state': place.state.name,
+            'category': place.categories,
+            'price': place.price,
+            'rating': place.rating,
+            'images': images_list
+        })
+    # print(places_list)
+    return jsonify({'places': places_list,"message":"data sent sucessfully"}), 200
+
+
+
+@admin.route('/get_place/<int:id>', methods=['GET'])
+def get_place(id):
+    place = Places.query.get(id)
+    if not place:
+        return jsonify({'message': 'Place not found'}), 404
+
+    images = PlacesImages.query.filter_by(place_id=place.id).all()
+    images_list = [{'id': image.id, 'image_name': image.image_name, 'mimetype': image.mimetype} for image in images]
+
+    return jsonify({
+        'id': place.id,
+        'name': place.name,
+        'description': place.description,
+        'state': place.state.name,
+        'category': place.categories.name,
+        'price': place.price,
+        'rating': place.rating,
+        'images': images_list
+    }), 200
+
+
+
+@admin.route("/get_image/<int:id>", methods=['GET'])
+def get_image(id):
+    image_data = PlacesImages.query.get_or_404(id)
+    # image_data = PlacesImages.query.filter_by(place_id=id).all()
+    print(image_data)
+    if not image_data:
+        return jsonify({'message': 'Image not found'}), 404
+
+    # Return the image with the appropriate mimetype
+    return send_file(BytesIO(image_data.image), mimetype=image_data.mimetype)

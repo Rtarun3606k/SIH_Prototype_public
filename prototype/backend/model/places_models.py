@@ -6,7 +6,7 @@ class Places(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text(), nullable=False)
-    location = db.Column(db.String(50), nullable=False)
+    State_name = db.Column(db.String(50), nullable=False)
     # category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)  # Foreign key to Categories
     categories = db.Column(db.Text(), nullable=False)  
 
@@ -27,6 +27,8 @@ class PlacesImages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.LargeBinary, nullable=False)  # Large binary for image
     place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
+    mimetype = db.Column(db.String(50), nullable=False)
+    image_name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<PlacesImages {self.id}>'
@@ -45,6 +47,8 @@ class StateImages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.LargeBinary, nullable=False)  # Large binary for image
     state_id = db.Column(db.Integer, db.ForeignKey('states.id'), nullable=False)
+    mimetype = db.Column(db.String(50), nullable=False)
+    image_name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<StateImages {self.id}>'
