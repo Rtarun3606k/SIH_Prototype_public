@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { url } from "../Utility/URL";
 import Admin_display_info from "./components/Admin_display_info";
 import "./css/Admin_display_info.css";
+import { redirect_if_not_logged_in_admin } from "../Utility/AUTH";
 
 const Admin_dashboard = () => {
   const [data_set, setData_set] = useState([]);
@@ -17,6 +18,7 @@ const Admin_dashboard = () => {
   };
   useEffect(() => {
     handel_data_request();
+    redirect_if_not_logged_in_admin();
   }, []);
 
   return (

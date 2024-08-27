@@ -54,8 +54,8 @@ def login():
         return jsonify({'message':'user not found'}),401
     if bcrypt.checkpw(password.encode('utf-8'), user.password):
         print("checked password")
-        access_token = create_access_token(identity=user.id,expires_delta=timedelta(days=1))
-        refresh_token = create_refresh_token(identity=user.id, expires_delta=timedelta(milliseconds=30))
+        access_token = create_access_token(identity=user.id,expires_delta=timedelta(hours=1),additional_claims={"token_type": "access_token"})
+        refresh_token = create_refresh_token(identity=user.id, expires_delta=timedelta(days=1),additional_claims={"token_type": "refresh_token"})
         print(access_token,refresh_token,"token")
         return jsonify({'access_token':access_token,'refresh_token':refresh_token,"message":"login success"}),200
     return jsonify({'message':'invalid credentials'}),401
@@ -332,3 +332,39 @@ def delete_cat(id):
     db.session.commit()
 
     return jsonify({'message': 'Category deleted successfully'}), 200
+
+
+@admin.route('/update_state/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_state(id):
+    check_user = ADMIN.query.filter_by(id=get_jwt_identity()).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+    state = States.query.get(id)
+    if not state:
+        return jsonify({'message': 'State not found'}), 404
+
+    data = request.json
+    state.name = data.get('state_name')
+
+    db.session.commit()
+
+    return jsonify({'message': 'State updated successfully'}), 200
+
+
+@admin.route('/update_cat/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_cat(id):
+    check_user = ADMIN.query.filter_by(id=get_jwt_identity()).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+    cat = Categories.query.get(id)
+    if not cat:
+        return jsonify({'message': 'Category not found'}), 404
+
+    data = request.json
+    cat.name = data.get('cat_name')
+
+    db.session.commit()
+
+    return jsonify({'message': 'Category updated successfully'}), 200

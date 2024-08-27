@@ -59,69 +59,149 @@ export const edit_access_token = (new_access_token) => {
   }
 };
 
-//function to check the token exist or not
+// //function to check the token exist or not
+// export const check_token = async () => {
+//   let access_token = get_cookies_data(false, true);
+//   let refresh_token = get_cookies_data(true, false);
+//   console.log("Access Token: ", access_token);
+//   console.log("Refresh Token: ", refresh_token);
+
+//   if (!access_token) {
+//     console.log("No access token found.");
+//     return false;
+//   } else if (!refresh_token) {
+//     console.log("No refresh token found.");
+//     return false;
+//   } else {
+//     console.log("Tokens exist.");
+
+//     try {
+//       // Check the access token
+//       let options = {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${access_token}`,
+//         },
+//       };
+
+//       let response = await fetch(`${url}/check_token`, options);
+//       let data = await response.json();
+
+//       if (response.status === 200) {
+//         console.log(data.msg);
+//         return true;
+//       } else if (response.status === 401) {
+//         console.log(data.msg);
+
+//         // Attempt to refresh the token
+//         options = {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${refresh_token}`,
+//           },
+//         };
+
+//         response = await fetch(
+//           `${url}/check_session_token/refresh_session_token`,
+//           options
+//         );
+//         let data = await response.json();
+
+//         if (response.status === 200) {
+//           console.log(data.msg);
+//           store_cookies_data(refresh_token, data.access_token);
+//           return true;
+//         } else {
+//           console.log(data.msg);
+//           return false;
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error checking token:", error);
+//       return false;
+//     }
+//   }
+// };
+
 export const check_token = async () => {
-  let access_token = get_cookies_data(false, true);
-  let refresh_token = get_cookies_data(true, false);
+  const access_token = get_cookies_data(false, true);
+  const refresh_token = get_cookies_data(true, false);
+
   console.log("Access Token: ", access_token);
   console.log("Refresh Token: ", refresh_token);
 
   if (!access_token) {
     console.log("No access token found.");
     return false;
-  } else if (!refresh_token) {
+  }
+
+  if (!refresh_token) {
     console.log("No refresh token found.");
     return false;
-  } else {
-    console.log("Tokens exist.");
+  }
+
+  console.log("Tokens exist.");
+
+  const checkToken = async (token) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     try {
-      // Check the access token
-      let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-      };
+      const response = await fetch(`${url}/check_token`, options);
+      const data = await response.json();
+      return { status: response.status, msg: data.msg };
+    } catch (error) {
+      console.error("Error during token check:", error);
+      return { status: 500, msg: "Token check failed." };
+    }
+  };
 
-      let response = await fetch(`${url}/check_token`, options);
-      let data = await response.json();
+  const accessTokenCheck = await checkToken(access_token);
+
+  if (accessTokenCheck.status === 200) {
+    console.log(accessTokenCheck.msg);
+    return true;
+  } else if (accessTokenCheck.status === 401) {
+    console.log("Access token expired. Attempting to refresh.");
+
+    const refreshOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refresh_token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `${url}/check_session_token/refresh_session_token`,
+        refreshOptions
+      );
+      const data = await response.json();
 
       if (response.status === 200) {
-        console.log(data.msg);
+        console.log("Token refreshed:", data.msg);
+        store_cookies_data(refresh_token, data.access_token);
+        window.location.reload();
         return true;
-      } else if (response.status === 401) {
-        console.log(data.msg);
-
-        // Attempt to refresh the token
-        options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${refresh_token}`,
-          },
-        };
-
-        response = await fetch(
-          `${url}/check_session_token/refresh_session_token`,
-          options
-        );
-        let data = await response.json();
-
-        if (response.status === 200) {
-          console.log(data.msg);
-          store_cookies_data(refresh_token, data.access_token);
-          return true;
-        } else {
-          console.log(data.msg);
-          return false;
-        }
+      } else {
+        console.log("Failed to refresh token:", data.msg);
+        return false;
       }
     } catch (error) {
-      console.error("Error checking token:", error);
+      console.error("Error during token refresh:", error);
       return false;
     }
+  } else {
+    console.log("Unexpected response status:", accessTokenCheck.msg);
+    return false;
   }
 };
 

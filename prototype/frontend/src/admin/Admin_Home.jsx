@@ -5,11 +5,18 @@ import { url } from "../Utility/URL";
 import { get_cookies_data } from "../Utility/AUTH";
 import { toast } from "react-toastify";
 import { redirect_if_not_logged_in_admin } from "../Utility/AUTH";
+import Admin_update_state_cat from "../admin/components/Admin_update_state_cat";
 
 const Admin_Home = () => {
   const [state_list, setState_list] = useState([]);
   const [cat_list, setCat_list] = useState([]);
   const [change_list, setChange_list] = useState(false);
+  const [Update, setUpdate] = useState(false);
+  let data_for_update = {
+    id: 0,
+    state: false,
+    cat: false,
+  };
 
   const handel_data_request = async () => {
     const options = {
@@ -66,6 +73,13 @@ const Admin_Home = () => {
     }
   };
 
+  let handel_update = (id, state) => {
+    data_for_update.id = id;
+    data_for_update.state = state;
+    data_for_update.cat = !state;
+    setUpdate(!Update);
+  };
+
   useEffect(() => {
     redirect_if_not_logged_in_admin();
     handel_data_request();
@@ -87,6 +101,13 @@ const Admin_Home = () => {
                     }}
                   >
                     Delete {state.name}
+                  </button>
+                  <button
+                    onClick={() => {
+                      handel_update(state.id, true);
+                    }}
+                  >
+                    Update
                   </button>
                 </span>
               </>
@@ -110,12 +131,30 @@ const Admin_Home = () => {
                   >
                     Delete {cat.name}
                   </button>
+                  <button
+                    onClick={() => {
+                      handel_update(cat.id, false);
+                    }}
+                  >
+                    Update
+                  </button>
                 </span>
                 ;
               </>
             );
           })}
         </ul>
+      </div>
+      <div className="update_box">
+        {Update ? (
+          <Admin_update_state_cat
+            id={data_for_update.id}
+            state={data_for_update.state}
+            cat={data_for_update.cat}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
