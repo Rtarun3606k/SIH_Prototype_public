@@ -11,6 +11,7 @@ const Admin_display_info = ({
   rating,
   cat,
   images_data,
+  id_place,
 }) => {
   const handel_image_delete = async (id) => {
     const options = {
@@ -22,6 +23,25 @@ const Admin_display_info = ({
     };
 
     const response = await fetch(`${url}/admin/delete_image/${id}`, options);
+    const data = await response.json();
+    if (response.status === 200) {
+      console.log(data.message, "message");
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+  };
+
+  const handel_place_delete = async (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${get_cookies_data(false, true)}`,
+      },
+    };
+
+    const response = await fetch(`${url}/admin/delete_place/${id}`, options);
     const data = await response.json();
     if (response.status === 200) {
       console.log(data.message, "message");
@@ -57,7 +77,15 @@ const Admin_display_info = ({
           );
         })}
       </div>
-      <div className="admin_buttons"></div>
+      <div className="admin_buttons">
+        <button
+          onClick={() => {
+            handel_place_delete(id_place);
+          }}
+        >
+          Delete place
+        </button>
+      </div>
     </div>
   );
 };

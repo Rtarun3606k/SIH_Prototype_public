@@ -259,3 +259,17 @@ def delete_image(id):
     db.session.commit()
 
     return jsonify({'message': 'Image deleted successfully'}), 200
+
+@admin.route('/delete_place/<int:id>', methods=['DELETE'])
+def delete_place(id):
+    place = Places.query.filter_by(id=id).first()
+    place_img = PlacesImages.query.filter_by(place_id=id).all()
+    if not place:
+        return jsonify({'message': 'Place not found'}), 404
+    for i in place_img:
+        db.session.delete(i)
+    db.session.commit()
+    db.session.delete(place)
+    db.session.commit()
+
+    return jsonify({'message': 'Place deleted successfully'}), 200

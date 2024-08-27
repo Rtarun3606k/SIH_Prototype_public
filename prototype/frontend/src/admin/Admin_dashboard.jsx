@@ -32,6 +32,7 @@ const Admin_dashboard = () => {
             price={data.price}
             description={data.description}
             images_data={data.images}
+            id_place={data.id}
           />
         );
       })}
