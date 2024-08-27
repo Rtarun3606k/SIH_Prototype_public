@@ -8,3 +8,18 @@
     width: 20%;
     object-fit: cover;
 }
+
+.container_info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    align-items: center;
+    /* gap: 20px; */
+    border: 2px solid black;
+    
+}
+
+.data_box{
+    background: #000;
+}

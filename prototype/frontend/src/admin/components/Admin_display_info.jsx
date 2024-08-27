@@ -1,5 +1,7 @@
 import React from "react";
 import { url } from "../../Utility/URL";
+import { toast } from "react-toastify";
+import { get_cookies_data } from "../../Utility/AUTH";
 
 const Admin_display_info = ({
   place_name,
@@ -10,8 +12,27 @@ const Admin_display_info = ({
   cat,
   images_data,
 }) => {
+  const handel_image_delete = async (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${get_cookies_data(false, true)}`,
+      },
+    };
+
+    const response = await fetch(`${url}/admin/delete_image/${id}`, options);
+    const data = await response.json();
+    if (response.status === 200) {
+      console.log(data.message, "message");
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+  };
+
   return (
-    <div className="container">
+    <div className="container_info">
       <div className="data_box">
         <p>place_name: {place_name}</p>
         <p>state_name : {state_name}</p>
@@ -22,12 +43,21 @@ const Admin_display_info = ({
       </div>
       <div className="img_box">
         {images_data.map((img) => {
-          return <img src={`${url}/admin/get_image/${img.id}`} alt="no" />;
+          return (
+            <>
+              <img src={`${url}/admin/get_image/${img.id}`} alt="no" />;
+              <button
+                onClick={() => {
+                  handel_image_delete(img.id);
+                }}
+              >
+                Delete image
+              </button>
+            </>
+          );
         })}
       </div>
-      <div className="admin_buttons">
-        <button>Delete</button>
-      </div>
+      <div className="admin_buttons"></div>
     </div>
   );
 };

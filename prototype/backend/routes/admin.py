@@ -180,7 +180,7 @@ def add_place():
             db.session.add(place_image)
 
         db.session.commit()
-        return jsonify({'message': 'Place added successfully'}), 201
+        return jsonify({'message': 'Place added successfully'}), 200
     except IntegrityError as e:
         db.session.rollback()
         return jsonify({'message': f'Error adding place: {e}'}), 400
@@ -244,3 +244,18 @@ def get_image(id):
 
     # Return the image with the appropriate mimetype
     return send_file(BytesIO(image_data.image), mimetype=image_data.mimetype)
+
+
+
+# delete routes for admin
+
+@admin.route('/delete_image/<int:id>', methods=['DELETE'])
+def delete_image(id):
+    image = PlacesImages.query.filter_by(id=id).first()
+    if not image:
+        return jsonify({'message': 'Image not found'}), 404
+
+    db.session.delete(image)
+    db.session.commit()
+
+    return jsonify({'message': 'Image deleted successfully'}), 200
