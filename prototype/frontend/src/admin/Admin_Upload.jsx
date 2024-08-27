@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { url } from "../Utility/URL";
 import { get_cookies_data } from "../Utility/AUTH";
 
+import { redirect_if_not_logged_in_admin } from "../Utility/AUTH";
+
 const Admin_Upload = () => {
   const [state_loading, setState_loading] = useState(false);
   const [place_loading, setPlace_loading] = useState(false);
@@ -23,9 +25,10 @@ const Admin_Upload = () => {
   const [cat_name, setCat_name] = useState("");
 
   useEffect(() => {
+    redirect_if_not_logged_in_admin();
     load_states();
     load_cat();
-  }, [state_loading, place_loading]);
+  }, [state_loading, place_loading, cat_loading]);
 
   //Function to load states
   const load_states = async () => {

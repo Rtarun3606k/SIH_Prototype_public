@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { url } from ".././Utility/URL";
+// import { useNavigate } from "react-router-dom";
 // import { url } from "../data/URL";
 
 //function to store the cookies data
@@ -121,4 +123,19 @@ export const check_token = async () => {
       return false;
     }
   }
+};
+
+export const redirect_if_not_logged_in_admin = () => {
+  check_token()
+    .then((response) => {
+      const navigate = useNavigate();
+      if (!response) {
+        console.log("Token not found. Redirecting to login page...");
+        navigate("/admin/login");
+      }
+    })
+    .catch((error) => {
+      console.error("Error checking token:", error);
+      // Optionally, you could redirect to an error page or show a notification
+    });
 };

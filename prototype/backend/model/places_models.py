@@ -36,7 +36,7 @@ class PlacesImages(db.Model):
 
 class States(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False , unique=True)
     places = db.relationship('Places', backref='state', lazy=True)
 
     def __repr__(self):

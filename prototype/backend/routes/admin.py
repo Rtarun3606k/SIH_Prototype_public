@@ -112,7 +112,7 @@ def add_cat():
     if not check_user:
         return jsonify({'message':'user not found'}),401
     get_data = request.json
-    cat = get_data.get("cat")
+    cat = get_data.get("cat_name")
     new_cat = Categories(name=cat)
     try:
         db.session.add(new_cat)
@@ -246,6 +246,23 @@ def get_image(id):
     return send_file(BytesIO(image_data.image), mimetype=image_data.mimetype)
 
 
+@admin.route('/get_states_and_categories', methods=['GET'])
+@jwt_required()
+def get_states_and_categories():
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+
+    states = States.query.all()
+    states_list = [{'id': state.id, 'name': state.name} for state in states]
+
+    categories = Categories.query.all()
+    categories_list = [{'id': category.id, 'name': category.name} for category in categories]
+
+    return jsonify({'states': states_list, 'categories': categories_list}), 200
+
+
 
 # delete routes for admin
 
@@ -273,3 +290,45 @@ def delete_place(id):
     db.session.commit()
 
     return jsonify({'message': 'Place deleted successfully'}), 200
+
+
+#delete routes for admin
+
+@admin.route('/delete_state/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_state(id):
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+
+    state = States.query.filter_by(id=id).first()
+    if not state:
+        return jsonify({'message': 'State not found'}), 404
+    places = Places.query.filter_by(state_id=id).all()
+
+    for place in places:
+        db.session.delete(place)
+    db.session.commit()
+
+    db.session.delete(state)
+    db.session.commit()
+
+    return jsonify({'message': 'State deleted successfully'}), 200
+
+@admin.route('/delete_cat/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_cat(id):
+    identity = get_jwt_identity()
+    check_user = ADMIN.query.filter_by(id=identity).first()
+    if not check_user:
+        return jsonify({'message': 'User not found'}), 401
+
+    cat = Categories.query.filter_by(id=id).first()
+    if not cat:
+        return jsonify({'message': 'Category not found'}), 404
+
+    db.session.delete(cat)
+    db.session.commit()
+
+    return jsonify({'message': 'Category deleted successfully'}), 200
