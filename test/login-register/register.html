@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="login-styles.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="wrapper">
+    <form id="loginForm">
+      <h1>Register</h1>
+      <div class="input-box">
+        <input id="fname" type="text" placeholder="First name" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input id="lname" type="text" placeholder="Last name" required>
+        <i class='bx bxs-user' ></i>
+      </div>
+      <div class="input-box">
+        <input id="email" type="email" placeholder="Email" required>
+        <i class='bx bxl-gmail' ></i>
+      </div>
+      <div class="input-box">
+        <input id="city" type="text" placeholder="City" required>
+        <i class='bx bx-current-location' ></i>
+      </div>
+      <div class="input-box">
+        <input id="state" type="text" placeholder="State" required>
+        <i class='bx bxs-location-plus' ></i>
+      </div>
+      <div class="input-box">
+        <input id="usn" type="text" placeholder="Create username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input id="pwd" type="password" placeholder="Create password" required>
+        <i class='bx bxs-lock-alt' ></i>
+      </div>
+      <div class="input-box">
+        <input id="pwd_conf" type="password" placeholder="Confirm password" required>
+        <i class='bx bxs-lock-alt' ></i>
+      </div>
+      <button type="submit" class="btn">Register</button>
+      <div class="register-link">
+        <p>Already have an account? <a href="login.html">Login</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      const password = document.getElementById('pwd').value;
+      const confirmPassword = document.getElementById('pwd_conf').value;
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        event.preventDefault(); // Prevent form submission
+      }
+    });
+  </script>
+</body>
+</html>
