@@ -1,4 +1,4 @@
-nav{
+.nav_admin{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -10,13 +10,13 @@ nav{
     z-index: 100;
 }
 
-nav ul{
+.nav_admin ul{
     display: flex;
     gap: 1em;
     list-style: none;
 }
 
-nav ul li{
+.nav_admin ul li{
     /* margin-right: 1em; */
     padding: .6em .4rem;
     /* background-color: #646cff; */
@@ -38,7 +38,7 @@ nav ul li{
     border-radius: 5px;
 }
 
-nav ul li a{
+.nav_admin ul li a{
     color: white;
     text-decoration: none;
     font-weight: 500;

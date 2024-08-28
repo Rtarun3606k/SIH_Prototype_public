@@ -6,6 +6,9 @@ import Admin_Register from "./admin/Admin_register";
 import Admin_dashboard from "./admin/Admin_dashboard";
 import Admin_Upload from "./admin/Admin_Upload";
 import Admin_Home from "./admin/Admin_Home";
+// user components import
+import User_Home from "./User/User_Home";
+import User_layout from "./User/User_layout";
 
 const APPRouter = () => {
   return (
@@ -19,6 +22,14 @@ const APPRouter = () => {
           <Route path="upload" element={<Admin_Upload />} />
           <Route path="home" element={<Admin_Home />} />
         </Route>
+
+        {/* User routes */}
+        <Route path="/" element={<User_layout />}>
+          <Route index element={<User_Home />} />
+          <Route path="home" element={<User_Home />} />
+        </Route>
+
+        <Route path="*" element={<h1>404 Not Found</h1>} />
 
         {/* 404 Route */}
       </Routes>

@@ -35,7 +35,7 @@ const Admin_navigation = () => {
 
   return (
     <>
-      <nav>
+      <nav className="nav_admin">
         <ul>
           {Admin_navigation_data.map((item) => (
             <li key={item.id}>
