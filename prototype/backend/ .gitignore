@@ -1,4 +1,6 @@
-/__pycache__/
+migrations/__pycache__
+model/__pycache__
+routes/__pycache__
 # write git ignore for flask migrate and pycache
-flask-migrate/
+# flask-migrate/
 __pycache__/
