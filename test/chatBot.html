@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency Chatbot</title>
+    <link rel="stylesheet" href="chatBot.css">
+</head>
+<body class="body">
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <h2 class="h2">TravelBot</h2>
+            <p class="p">Your travel companion</p>
+        </div>
+        <div class="chat-window" id="chat-window">
+            <div class="bot-messages-div">
+
+                <div class="chat-message bot-message">
+                    <p>Hello! I’m here to help you plan your next adventure. How can I assist you today?</p>
+                </div>
+                <img src="/bot.png" alt="" class="bot-img">
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message..." autofocus class="input"/>
+            <button id="send-btn" class="button">Send</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === '') return;
+
+            const chatWindow = document.getElementById('chat-window');
+
+            // Display user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user-message';
+            userMessage.innerHTML = `<div class="coutme-message-box"><p>${userInput}</p></div>`;
+            chatWindow.appendChild(userMessage);
+
+            // Clear input
+            document.getElementById('user-input').value = '';
+
+            // Scroll to the bottom of the chat window
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Simulate bot response
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add("bot-messages-div");
+                // botMessage.className = 'chat-message bot-message';
+                botMessage.innerHTML = `<div class="bot-messages-div">
+
+                <div class="chat-message bot-message">
+                    <p>Hello! I’m here to help you plan your next adventure. How can I assist you today?</p>
+                </div>
+                <img src="/bot.png" alt="" class="bot-img">
+            </div>`;
+                chatWindow.appendChild(botMessage);
+
+                // Scroll to the bottom of the chat window
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
