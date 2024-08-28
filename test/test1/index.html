@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel & Tourism</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">TravelNow</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Destinations</a></li>
+                <li><a href="#">Travel Guides</a></li>
+                <li><a href="#">Book Tickets Now</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Dream Destination</h1>
+            <p>Explore the beauty of the world with personalized travel plans.</p>
+            <a href="#" class="btn-primary">Explore Destinations</a>
+            <a href="#" class="btn-secondary">Book Tickets Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Destinations -->
+    <section class="featured-destinations">
+        <h2>Featured Destinations</h2>
+        <div class="destination-grid">
+            <div class="destination">
+                <img src="hawaii.jpg" alt="Hawaii">
+                <h3>Hawaii</h3>
+                <p>Experience the tropical paradise.</p>
+            </div>
+            <div class="destination">
+                <img src="paris.jpg" alt="Paris">
+                <h3>Paris</h3>
+                <p>The city of love and lights.</p>
+            </div>
+            <div class="destination">
+                <img src="tokyo.jpg" alt="Tokyo">
+                <h3>Tokyo</h3>
+                <p>A perfect blend of tradition and technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Tickets Now -->
+    <section class="book-tickets">
+        <h2>Book Your Travel</h2>
+        <form>
+            <label for="destination">Select Destination:</label>
+            <select id="destination">
+                <option value="hawaii">Hawaii</option>
+                <option value="paris">Paris</option>
+                <option value="tokyo">Tokyo</option>
+            </select>
+
+            <label for="dates">Travel Dates:</label>
+            <input type="date" id="dates" name="dates">
+
+            <label for="travelers">Number of Travelers:</label>
+            <input type="number" id="travelers" name="travelers" min="1" max="10">
+
+            <button type="submit">Book Now</button>
+        </form>
+    </section>
+
+    <!-- Image Viewing Section -->
+<section class="image-gallery">
+    <h2>Explore Our Gallery</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img src="hawaii.jpg" alt="Hawaii">
+            <div class="gallery-info">
+                <h3>Hawaii</h3>
+                <p>A beautiful tropical paradise with stunning beaches, volcanoes, and vibrant culture.</p>
+                <button class="btn-more-details" onclick="showDetails('hawaii')">More Details</button>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="paris.jpg" alt="Paris">
+            <div class="gallery-info">
+                <h3>Paris</h3>
+                <p>The city of love, known for its iconic landmarks, art, and fashion.</p>
+                <button class="btn-more-details" onclick="showDetails('paris')">More Details</button>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="tokyo.jpg" alt="Tokyo">
+            <div class="gallery-info">
+                <h3>Tokyo</h3>
+                <p>A bustling metropolis that blends ancient traditions with cutting-edge technology.</p>
+                <button class="btn-more-details" onclick="showDetails('tokyo')">More Details</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 TravelNow. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
