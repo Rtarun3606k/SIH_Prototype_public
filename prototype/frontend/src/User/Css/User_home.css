@@ -1,3 +1,24 @@
 .slider{
     max-height: 95vh;
 }
+
+
+.chat_bot_button{
+    position: sticky;
+    right: 70px;
+    z-index: 999;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+
+
+    /* margin: 12px 12px; */
+}
+
+.bot_img_button{
+    width: 4%;
+    height: 20%;
+    margin-right: 3rem;
+}
