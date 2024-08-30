@@ -19,7 +19,7 @@ const User_Home = () => {
       home
       <div className="chat_bot_button" onClick={handel_chat_bot_status}>
         {chat_bot_active ? <Chat_bot /> : ""}
-        <img src="./bot.png" alt="" className="bot_img_button" />
+        <img src="./bot1.png" alt="" className="bot_img_button" />
       </div>
     </>
   );
